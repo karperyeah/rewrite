@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/sprites/explosion_ball.png" type="Texture" id=1]
+[ext_resource path="res://assets/scenes/fx/explosion.gd" type="Script" id=2]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+particles_animation = true
+particles_anim_h_frames = 2
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0, 1 ), 0.0, -1.0, 0, 1, Vector2( 1, 0 ), -1.0, 0.0, 1, 0 ]
+
+[sub_resource type="Animation" id=3]
+resource_name = "Explode"
+tracks/0/type = "value"
+tracks/0/path = NodePath("CPUParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[node name="Explosion" type="Node2D"]
+script = ExtResource( 2 )
+color = Color( 1, 1, 1, 1 )
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+material = SubResource( 1 )
+emitting = false
+amount = 12
+one_shot = true
+explosiveness = 1.0
+randomness = 0.54
+texture = ExtResource( 1 )
+spread = 180.0
+gravity = Vector2( 0, -0.5 )
+initial_velocity = 105.04
+initial_velocity_random = 0.14
+scale_amount_curve = SubResource( 2 )
+anim_speed = 0.79
+anim_speed_random = 0.06
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Explode = SubResource( 3 )

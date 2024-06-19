@@ -15,6 +15,7 @@ export var deacceleration = 700.0
 
 export var jump_velocity = 275.0
 
+export var maximum_jumps : int = 3
 export var allow_control : bool = true
 
 var direction : float = 0.0
@@ -27,6 +28,9 @@ enum BackpackItem {
 	GUN_STANDARD, # rapid fire, limited ammo, lower damage, but higher boost?
 	GUN_POWER, # single/double shot per jump, higher damage, but lower boost?
 }
+
+# Bullet scene
+onready var bullet_scene = preload("res://assets/scenes/actors/projectiles/bullet.tscn")
 
 export var scene : String
 
@@ -48,15 +52,28 @@ func _jump(delta: float) -> void:
 		times_jumped = 0
 	
 	if Input.is_action_just_pressed("action") and allow_control:
-		if is_on_floor() or coyote_time.time_left > 0.0 or (times_jumped < 2 and times_jumped >= 1):
+		if is_on_floor() or coyote_time.time_left > 0.0 or (times_jumped < maximum_jumps and times_jumped >= 1):
 			times_jumped += 1
-			velocity.y = -jump_velocity
-			coyote_time.stop()
 			
 			animation_player.seek(0)
 			animation_player.play("Jump")
 			$JumpSound.pitch_scale = rand_range(0.7, 1.3)
 			$JumpSound.play()
+			
+			# temporary double jump bullet 
+			if(times_jumped > 1):
+				var b1 = bullet_scene.instance()
+				b1.position = self.position + Vector2(0, 8)
+				b1.velocity = Vector2(0, 400)
+				b1.set_allegiance(Bullet.Allegiance.PLAYER)	
+				get_parent().add_child(b1)   
+				$Meat.play()
+				
+				velocity.y = -jump_velocity * 0.75
+				coyote_time.stop()
+			else:
+				velocity.y = -jump_velocity
+				coyote_time.stop()
 
 
 func _coyote_time(was_on_floor: bool) -> void:

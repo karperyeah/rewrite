@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Area2D",
+"class": "Bullet",
+"language": "GDScript",
+"path": "res://assets/scripts/bullet.gd"
+}, {
 "base": "Camera2D",
 "class": "GameCamera2D",
 "language": "GDScript",
@@ -20,6 +25,7 @@ _global_script_classes=[ {
 "path": "res://addons/godot-git-plugin/git_api.gdns"
 } ]
 _global_script_class_icons={
+"Bullet": "",
 "GameCamera2D": "",
 "GitAPI": ""
 }
@@ -27,7 +33,7 @@ _global_script_class_icons={
 [application]
 
 config/name="rewrite"
-run/main_scene="res://assets/scenes/test_level.tscn"
+run/main_scene="res://assets/scenes/levels/test_level.tscn"
 
 [autoload]
 
@@ -79,6 +85,16 @@ toggle_fullscreen={
 , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":true,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777221,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
+
+[layer_names]
+
+2d_physics/layer_1="Environment"
+2d_physics/layer_2="Player"
+2d_physics/layer_3="Enemy"
+2d_physics/layer_4="FriendlyProjectile"
+2d_physics/layer_5="EnemyProjectile"
+2d_physics/layer_6="HeavyProjectile"
+2d_physics/layer_7="Item"
 
 [physics]
 
