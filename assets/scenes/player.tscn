@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://assets/sprites/character.png" type="Texture" id=1]
 [ext_resource path="res://assets/scripts/player.gd" type="Script" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://assets/sound/jump.wav" type="AudioStream" id=7]
 [ext_resource path="res://assets/sound/groan.wav" type="AudioStream" id=8]
 [ext_resource path="res://assets/sound/explosion.wav" type="AudioStream" id=9]
+[ext_resource path="res://assets/sprites/backpacks.png" type="Texture" id=10]
+[ext_resource path="res://assets/themes/global_theme.tres" type="Theme" id=11]
 
 [sub_resource type="RectangleShape2D" id=12]
 extents = Vector2( 12, 12 )
@@ -19,26 +21,89 @@ extents = Vector2( 10, 10.25 )
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7.5, 8 )
 
-[sub_resource type="AtlasTexture" id=10]
-atlas = ExtResource( 6 )
-region = Rect2( 0, 0, 16, 16 )
+[sub_resource type="Animation" id=15]
+resource_name = "Fez"
+length = 0.5
+loop = true
+step = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath("Hat:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Rect2( 0, 0, 12, 12 ), Rect2( 0, 12, 12, 12 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Hat:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Hat:offset")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -3, -2 ) ]
+}
 
-[sub_resource type="AtlasTexture" id=11]
-atlas = ExtResource( 6 )
-region = Rect2( 16, 0, 16, 16 )
-
-[sub_resource type="SpriteFrames" id=9]
-animations = [ {
-"frames": [ SubResource( 10 ) ],
-"loop": true,
-"name": "Fez",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 11 ) ],
-"loop": true,
-"name": "Party Hat",
-"speed": 5.0
-} ]
+[sub_resource type="Animation" id=16]
+resource_name = "Quote"
+length = 0.5
+loop = true
+step = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath("Hat:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Rect2( 36, 0, 24, 24 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Hat:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Hat:offset")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 4 ) ]
+}
 
 [sub_resource type="Animation" id=14]
 resource_name = "Death"
@@ -308,6 +373,18 @@ tracks/5/keys = {
 "update": 0,
 "values": [ Vector2( 0, -10 ) ]
 }
+tracks/6/type = "value"
+tracks/6/path = NodePath("Sprite/BackpackPosition:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, -1 ) ]
+}
 
 [sub_resource type="Animation" id=5]
 resource_name = "Jump"
@@ -511,6 +588,18 @@ tracks/4/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("Sprite/BackpackPosition:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, -1 ) ]
+}
 
 [sub_resource type="Animation" id=4]
 resource_name = "Run"
@@ -588,6 +677,18 @@ tracks/5/keys = {
 "update": 1,
 "values": [ Vector2( 0, -11 ), Vector2( 0, -10 ), Vector2( 0, -11 ), Vector2( 0, -10 ) ]
 }
+tracks/6/type = "value"
+tracks/6/path = NodePath("Sprite/BackpackPosition:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 0, -2 ), Vector2( 0, -1 ), Vector2( 0, -2 ), Vector2( 0, -1 ) ]
+}
 
 [node name="Player" type="KinematicBody2D" groups=["Player"]]
 collision_layer = 2
@@ -620,11 +721,26 @@ hframes = 2
 [node name="HatPosition" type="Position2D" parent="Sprite"]
 position = Vector2( 0, -11 )
 
-[node name="Hat" type="AnimatedSprite" parent="Sprite/HatPosition"]
+[node name="Hat" type="Sprite" parent="Sprite/HatPosition"]
 position = Vector2( 0, -9.53674e-07 )
-frames = SubResource( 9 )
-animation = "Fez"
-offset = Vector2( -3, -6 )
+texture = ExtResource( 6 )
+offset = Vector2( 1, 4 )
+region_enabled = true
+region_rect = Rect2( 36, 0, 24, 24 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite/HatPosition"]
+anims/Fez = SubResource( 15 )
+anims/Quote = SubResource( 16 )
+
+[node name="BackpackPosition" type="Position2D" parent="Sprite"]
+position = Vector2( 0, -1 )
+
+[node name="Backpack" type="Sprite" parent="Sprite/BackpackPosition"]
+z_index = -1
+texture = ExtResource( 10 )
+offset = Vector2( -9, 0 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 16, 16 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Death = SubResource( 14 )
@@ -649,5 +765,13 @@ volume_db = -15.0
 [node name="CoyoteTime" type="Timer" parent="."]
 wait_time = 0.2
 one_shot = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_left = -57.0
+margin_top = -63.0
+margin_right = 57.0
+margin_bottom = -20.0
+theme = ExtResource( 11 )
+bbcode_enabled = true
 
 [connection signal="body_entered" from="HurtBox" to="." method="_on_HurtBox_body_entered"]
