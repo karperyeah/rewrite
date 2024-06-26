@@ -4,6 +4,7 @@ onready var sprite = $Sprite
 onready var animation_player = $AnimationPlayer
 onready var hat_sprite = get_node("Sprite/HatPosition/").get_child(0)
 onready var backpack_sprite = get_node("Sprite/BackpackPosition/").get_child(0)
+onready var camera_focus : Position2D = $CameraFocus
 
 onready var coyote_time = $CoyoteTime
 
@@ -15,12 +16,13 @@ export var deacceleration = 700.0
 
 export var jump_velocity = 275.0
 
-export var maximum_jumps : int = 3
+export var maximum_jumps : int = 2
 export var allow_control : bool = true
 
 var direction : float = 0.0
 var velocity : Vector2 = Vector2.ZERO
 var times_jumped : int = 0
+var face : int = 1 # digital face direction of player
 
 # Item data to set / also for serializing save data
 enum BackpackItem {
@@ -35,8 +37,13 @@ onready var bullet_scene = preload("res://assets/scenes/actors/projectiles/bulle
 export var scene : String
 
 func _gravity(delta: float) -> void:
+	var wall_climb_slowdown_factor = 0.5
+	
 	if not is_on_floor():
-		velocity.y += gravity * delta
+		if is_on_wall() and can_wall_climb() and velocity.y < 0:
+			velocity.y += gravity * delta * wall_climb_slowdown_factor
+		else:
+			velocity.y += gravity * delta
 
 func _movement(delta: float) -> void:
 	if direction:
@@ -69,7 +76,7 @@ func _jump(delta: float) -> void:
 				get_parent().add_child(b1)   
 				$Meat.play()
 				
-				velocity.y = -jump_velocity * 0.75
+				velocity.y = -jump_velocity
 				coyote_time.stop()
 			else:
 				velocity.y = -jump_velocity
@@ -91,20 +98,27 @@ func _restart() -> void:
 	pass
 
 func _animation(direction: float) -> void:
-	if direction:
-		sprite.flip_h = direction < 0
-		hat_sprite.scale.x = direction
-		backpack_sprite.scale.x = direction
+	if direction > 0:
+		face = 1
+	elif direction < 0:
+		face = -1
+	
+	if face:
+		sprite.flip_h = face < 0
+		hat_sprite.scale.x = face
+		backpack_sprite.scale.x = face
 
 	if is_on_floor():
 		if velocity.x == 0 and velocity.y == 0:
 			animation_player.play("Idle")
 		if velocity.x != 0:
 			animation_player.play("Run")
-	
 	if not is_on_floor():
-		if velocity.y > 0:
-			animation_player.play("Fall")
+		if is_on_wall() and can_wall_climb():
+			animation_player.play("Slide")
+		else:
+			if velocity.y > 0:
+				animation_player.play("Fall")
 		
 	$RichTextLabel.bbcode_text = "[center]" + var2str($AnimationPlayer.current_animation) + "\n" + var2str(times_jumped) + "[/center]"
 
@@ -124,6 +138,12 @@ func _physics_process(delta: float) -> void:
 	_jump(delta)
 	
 	_coyote_time(was_on_floor)
+
+func is_on_wall() -> bool:
+	return ($LeftWallRay.is_colliding() or $RightWallRay.is_colliding())
+
+func can_wall_climb() -> bool:
+	return !$WallClimbThreshold.is_colliding()
 
 func _on_HurtBox_body_entered(body):
 	print("Agghhh! Hurts!!! Hurtie!")

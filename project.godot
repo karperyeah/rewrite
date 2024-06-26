@@ -41,10 +41,10 @@ Globals="*res://assets/scripts/globals.gd"
 
 [display]
 
-window/size/width=320
-window/size/height=240
-window/size/test_width=640
-window/size/test_height=480
+window/size/width=480
+window/size/height=272
+window/size/test_width=960
+window/size/test_height=544
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 

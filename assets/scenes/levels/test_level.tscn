@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://assets/scripts/gamecamera.gd" type="Script" id=1]
 [ext_resource path="res://assets/scenes/actors/player.tscn" type="PackedScene" id=2]
@@ -6,6 +6,9 @@
 [ext_resource path="res://assets/themes/global_theme.tres" type="Theme" id=4]
 [ext_resource path="res://assets/sprites/debug_background.png" type="Texture" id=5]
 [ext_resource path="res://assets/scripts/test_level.gd" type="Script" id=6]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 30, 68 )
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 76.5, 10.5 )
@@ -32,17 +35,31 @@ motion_scale = Vector2( 0.1, 0.1 )
 
 [node name="Sprite" type="Sprite" parent="ParallaxBackground/Background"]
 modulate = Color( 1, 1, 1, 0.32549 )
+position = Vector2( 0, -58 )
 texture = ExtResource( 5 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_mask = 17
 
+[node name="ColorRect2" type="ColorRect" parent="StaticBody2D"]
+margin_left = 77.0
+margin_top = -124.0
+margin_right = 137.0
+margin_bottom = 13.0
+rect_pivot_offset = Vector2( -230, -67 )
+color = Color( 0.054902, 0.054902, 0.054902, 1 )
+
 [node name="ColorRect" type="ColorRect" parent="StaticBody2D"]
 margin_left = -77.0
 margin_top = -10.0
 margin_right = 77.0
-margin_bottom = -5.0
+margin_bottom = 12.0
+rect_pivot_offset = Vector2( -230, -67 )
 color = Color( 0.054902, 0.054902, 0.054902, 1 )
+
+[node name="Collision2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 107, -56 )
+shape = SubResource( 3 )
 
 [node name="Collision" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2( 0, 1 )
@@ -57,6 +74,7 @@ shape = SubResource( 2 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 0, -35 )
+maximum_jumps = 3
 
 [node name="GameCamera" type="Camera2D" parent="."]
 current = true
@@ -68,7 +86,6 @@ player_node_path = NodePath("../Player")
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
 volume_db = -10.0
-autoplay = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
